@@ -1,0 +1,27 @@
+body{
+    margin: 0;
+}
+
+.topElements{
+    text-align: center;
+    color: darkorange;
+    background-color: maroon;
+    padding: 3.5em 1em 3.5em 1em;
+    margin: 0;
+}
+
+h1{
+    font-family: Segoe UI;
+    font-weight: lighter;
+    font-size: 350%
+}
+
+h3{
+    font-family: Corbel;
+    font-weight: lighter;
+    font-style: italic;
+}
+
+.startQuizButtons{
+    text-align: center;
+}
