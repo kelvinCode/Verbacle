@@ -13,24 +13,16 @@ let allQuestions = [
 
 let easyButtonInJS = document.getElementById("easyModeButton")
     easyButtonInJS.textContent = "EASY MODE"
-    easyButtonInJS.style.fontFamily = "Verdana"
-    easyButtonInJS.style.fontWeight = "bolder"
-    easyButtonInJS.style.fontSize = "200%"
     easyButtonInJS.addEventListener("click", putEasyQuizOnPage)
 
 let mediumButtonInJS = document.getElementById("mediumModeButton")
     mediumButtonInJS.textContent = "MEDIUM MODE"
-    mediumButtonInJS.style.fontFamily = "Verdana"
-    mediumButtonInJS.style.fontWeight = "bolder"
-    mediumButtonInJS.style.fontSize = "200%"
 
 let hardButtonInJS = document.getElementById("hardModeButton")
     hardButtonInJS.textContent = "HARD MODE"
-    hardButtonInJS.style.fontFamily = "Verdana"
-    hardButtonInJS.style.fontWeight = "bolder"
-    hardButtonInJS.style.fontSize = "200%"
 
 function putEasyQuizOnPage() {
     let easyQuizInJS = document.getElementById("spaceForQuiz")
         easyQuizInJS.textContent = allQuestions[1].question
+        easyQuizInJS.style.fontFamily = "Corbel"
 }

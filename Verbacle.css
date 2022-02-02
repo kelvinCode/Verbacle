@@ -1,4 +1,5 @@
 body{
+    background-color: tan;
     margin: 0;
 }
 
@@ -6,7 +7,7 @@ body{
     text-align: center;
     color: darkorange;
     background-color: maroon;
-    padding: 3.5em 1em 3.5em 1em;
+    padding: 0.2em 1em 2em 1em;
     margin: 0;
 }
 
@@ -22,6 +23,61 @@ h3{
     font-style: italic;
 }
 
+.introText{
+    font-family: Corbel;
+    font-size: 120%;
+    text-align: center;
+    color: maroon;
+    width: 60%;
+    margin: auto;
+}
+
+#verbacle, #goodluck{
+    font-weight: bold;
+}
+
 .startQuizButtons{
     text-align: center;
+}
+
+#easyModeButton{
+    font-family: Corbel;
+    font-weight: lighter;
+    font-size: 200%;
+    color: white;
+    background-color: limegreen;
+    border-style: none;
+    border-radius: 0.2em 0.2em 0.2em 0.2em
+}
+
+#easyModeButton:hover{
+    background-color: forestgreen;
+}
+
+#mediumModeButton{
+    font-family: Corbel;
+    font-weight: lighter;
+    font-size: 200%;
+    color: white;
+    background-color: goldenrod;
+    border-style: none;
+    border-radius: 0.2em 0.2em 0.2em 0.2em
+}
+
+#mediumModeButton:hover{
+    background-color: darkgoldenrod;
+}
+
+#hardModeButton{
+    font-family: Corbel;
+    font-weight: lighter;
+    font-size: 200%;
+    color: white;
+    background-color: orangered;
+    border-style: none;
+    border-radius: 0.2em 0.2em 0.2em 0.2em
+}
+
+#hardModeButton:hover{
+    background-color: darkred;
 }
