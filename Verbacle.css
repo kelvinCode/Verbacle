@@ -81,3 +81,8 @@ h3{
 #hardModeButton:hover{
     background-color: darkred;
 }
+
+#spaceForQuiz{
+    font-family: Corbel;
+    text-align: center;
+}
