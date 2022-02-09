@@ -3,7 +3,12 @@ let allQuestions = [
         question: "Legs are to humans as wheels are to ...",
         isInput: true,
         answers: [
-            {text: "cars", correct: true}, //input box question
+            {text: "cars"}, 
+            {text: "Cars"},
+            {text: "vehicles"},
+            {text: "Vehicles"},
+            {text: "trucks"},
+            {text: "Trucks"}
         ]
     },
     {
@@ -27,60 +32,98 @@ let allQuestions = [
     {
         question: "Something that is entirely made of organs is called a(n)",
         isInput: true, 
-        answers: [
-            {text: "organism", correct: true}, 
-        ]
+        correctAnswer: "organism"
     }
 ]
 
-//randomly sort the array then let a function present the generated quiz
-
 let easyModeButton = document.getElementById("easyModeButton")
-    easyModeButton.textContent = "EASY MODE"
-    easyModeButton.addEventListener("click", giveQuestion)
-
+easyModeButton.textContent = "EASY MODE"
+easyModeButton.addEventListener("click", giveQuestion)
 let mediumModeButton = document.getElementById("mediumModeButton")
-    mediumModeButton.textContent = "MEDIUM MODE"
-
+mediumModeButton.textContent = "MEDIUM MODE"
 let hardModeButton = document.getElementById("hardModeButton")
-    hardModeButton.textContent = "HARD MODE"
+hardModeButton.textContent = "HARD MODE"
 
 let questionBox = document.getElementById("questionBox")
 let questionText = document.getElementById("questionText")
 let answerContainer = document.getElementById("answerContainer")
-let nextButtonDiv = document.getElementById("nextButtonDiv")
+let quizOptionsDiv = document.getElementById("quizOptionsDiv")
 
 let currentQuestion = 0
 let questionTimer = 1000
 let generatedQuiz = allQuestions.sort(() => Math.random() - 0.5)
-// every time the page is refreshed, the items in allQuestions are randomly shuffled.
 
 function giveQuestion() {
+    let nextButton = document.createElement("button")
+    nextButton.textContent = "Next"
+    quizOptionsDiv.appendChild(nextButton)
+    let restartButton = document.createElement("button")
+    restartButton.textContent = "Restart"
+    quizOptionsDiv.appendChild(restartButton)
     questionText.textContent = generatedQuiz[currentQuestion].question
-    if (generatedQuiz[currentQuestion].isInput === true) {
+    if (generatedQuiz[currentQuestion].isInput) {
         let answerInput = document.createElement("input")
         answerContainer.appendChild(answerInput)
+        answerInput.addEventListener("keypress", inputEntryResponse)
+        function inputEntryResponse(target) {
+            if (target.key === "Enter") {
+                function showNextQuestion1() {
+                    currentQuestion++
+                    answerContainer.removeChild(answerInput)
+                    quizOptionsDiv.removeChild(nextButton)
+                    quizOptionsDiv.removeChild(restartButton)
+                    giveQuestion()
+                }
+                if (answerInput.value === generatedQuiz[currentQuestion].correctAnswer) {
+                    console.log("You correct, homie")
+                    nextButton.addEventListener("click", showNextQuestion1)
+                } else {
+                    console.log("U ah ded rong")
+                    nextButton.addEventListener("click", showNextQuestion1)
+                }
+            } else {
+                return null
+            }
+        }
     } else {
-        generatedQuiz[currentQuestion].answers.forEach(answers => {
+        generatedQuiz[currentQuestion].answers.forEach(addButtons)
+        function addButtons(iLoveJavascript) {
             let answerButton = document.createElement("button")
-                answerButton.textContent = answers.text
+            answerButton.textContent = iLoveJavascript.text
+            answerButton.className = "option"
             answerContainer.appendChild(answerButton)
-        });
+            answerButton.addEventListener("click", buttonClickResponse)
+            function buttonClickResponse() {
+                function showNextQuestion2() {
+                    let oldAnswerButtons = document.getElementsByClassName("option")
+                    currentQuestion++
+                    quizOptionsDiv.removeChild(nextButton)
+                    quizOptionsDiv.removeChild(restartButton)
+                    giveQuestion()
+                }
+                if (iLoveJavascript.correct) {
+                    console.log("I guess you're right")
+                    nextButton.addEventListener("click", showNextQuestion2)
+                } else {
+                    console.log("u wrong")
+                    nextButton.addEventListener("click", showNextQuestion2)
+                }
+            }
+        }
     }
-    let nextButton = document.createElement("button")
-        nextButton.textContent = "Next"
-        nextButton.addEventListener("click", nextQuestion)
-    nextButtonDiv.appendChild(nextButton)
 }
 
-function nextQuestion() {
-    currentQuestion++
-    giveQuestion()
-}
+// current features:
+// * every time the page is refreshed, the items in allQuestions are randomly shuffled.
+// * function "buttonClickResponse" checks to see if an input answer is correct
 
-//things to add:
-//* function which deletes the options from the previous question
+// observations:
+// * parameter for addButtons always refers to answers array, regardless of parameter name
+
+// things to add:
+// * function which deletes the options from the previous question
 // so that they don't stack onto the current options.
-//* add "restart" button
-//* function before "giveQuestion" that makes the intro text and difficulty
+// * add "restart" button
+// * function before "giveQuestion" that makes the intro text and difficulty
 // buttons disappear, then calls the "giveQuestion" function
+// * add conditional that checks if the input for answer input questions is correct
