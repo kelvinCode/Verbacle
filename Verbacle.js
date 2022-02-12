@@ -44,8 +44,10 @@ easyModeButton.textContent = "EASY MODE"
 easyModeButton.addEventListener("click", giveQuestion)
 let mediumModeButton = document.getElementById("mediumModeButton")
 mediumModeButton.textContent = "MEDIUM MODE"
+mediumModeButton.addEventListener("click", giveQuestion)
 let hardModeButton = document.getElementById("hardModeButton")
 hardModeButton.textContent = "HARD MODE"
+hardModeButton.addEventListener("click", giveQuestion)
 
 let questionBox = document.getElementById("questionBox")
 let questionText = document.getElementById("questionText")
@@ -83,36 +85,37 @@ function giveQuestion() {
         restartButton.style.fontFamily = "Corbel"
         quizOptionsDiv.appendChild(restartButton)
         questionText.textContent = generatedQuiz[currentQuestion].question
-        let questionTimeAmount = 10
+        let questionTimeAmount = 15
+        timerContainer.textContent = questionTimeAmount
         let questionCountdown = setInterval(deductOne, 1000)
         function deductOne() {
+            if (questionTimeAmount === 0) {
+                console.log("you're outta time buddy")
+                nextButton.addEventListener("click", showNextQuestion)
+                clearInterval(questionCountdown)
+            } else {
+                questionTimeAmount--
+            }
             timerContainer.textContent = questionTimeAmount
-            questionTimeAmount--
         }
         if (generatedQuiz[currentQuestion].isInput) {
             let answerInput = document.createElement("input")
             answerContainer.appendChild(answerInput)
-            answerInput.addEventListener("keypress", inputEntryResponse)
-            function inputEntryResponse(keyboard) {
+                answerInput.addEventListener("keypress", inputEntryResponse)
+                function inputEntryResponse(keyboard) {
                 if (keyboard.key === "Enter") {
                     generatedQuiz[currentQuestion].answers.find(checkAnswerText)
                     function checkAnswerText(thisAnswer) {
                         if (answerInput.value === thisAnswer.text) {
                             console.log("You correct, homie")
+                            clearInterval(questionCountdown)
                             correctAnswerCount++
                             nextButton.addEventListener("click", showNextQuestion)
                         } else {
                             console.log("rong")
+                            clearInterval(questionCountdown)
                             nextButton.addEventListener("click", showNextQuestion)
                         }
-                    }
-                    function showNextQuestion() {
-                        answerContainer.removeChild(answerInput)
-                        revealContainer.textContent = null
-                        quizOptionsDiv.removeChild(nextButton)
-                        quizOptionsDiv.removeChild(restartButton)
-                        currentQuestion++
-                        giveQuestion()
                     }
                 } else {
                     return null
@@ -131,21 +134,24 @@ function giveQuestion() {
                 function buttonClickResponse() {
                     if (thisAnswer.isCorrect) {
                         console.log("I guess you're right")
+                        clearInterval(questionCountdown)
                         correctAnswerCount++
                         nextButton.addEventListener("click", showNextQuestion)
                     } else {
                         console.log("u wrong")
+                        clearInterval(questionCountdown)
                         nextButton.addEventListener("click", showNextQuestion)
-                    }
-                    function showNextQuestion() {
-                        answerContainer.textContent = null
-                        quizOptionsDiv.removeChild(nextButton)
-                        quizOptionsDiv.removeChild(restartButton)
-                        currentQuestion++
-                        giveQuestion()
                     }
                 }
             }
+        }
+        function showNextQuestion() {
+            answerContainer.textContent = null
+            revealContainer.textContent = null
+            quizOptionsDiv.removeChild(nextButton)
+            quizOptionsDiv.removeChild(restartButton)
+            currentQuestion++
+            giveQuestion()
         }
     }
 }

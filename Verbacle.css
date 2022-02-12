@@ -86,3 +86,9 @@ h3{
     font-family: Corbel;
     text-align: center;
 }
+
+#timerContainer{
+    font-family: Verdana;
+    font-weight: bolder;
+    font-size: large;
+}
