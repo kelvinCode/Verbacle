@@ -3,11 +3,11 @@ body{
     margin: 0;
 }
 
-.topElements{
+#topElements{
     text-align: center;
     color: darkorange;
     background-color: maroon;
-    padding: 0.2em 1em 2em 1em;
+    padding: 0.1em 1em 2em 1em;
     margin: 0;
 }
 
@@ -85,10 +85,30 @@ h3{
 #questionBox{
     font-family: Corbel;
     text-align: center;
+    color: lemonchiffon;
+    width: 40%;
+    background-color: darkgoldenrod;
+    padding: 2em 0em 2em 0em;
+    margin: 9em auto auto auto;
+    border-style: none;
+    border-radius: 2em 2em 2em 2em
 }
 
 #timerContainer{
     font-family: Verdana;
     font-weight: bolder;
     font-size: large;
+}
+
+#resultsBox{
+    font-family: Corbel;
+    text-align: center;
+    color: lemonchiffon;
+    width: 30%;
+    background-color: darkgoldenrod;
+    padding: 2em 0em 2em 0em;
+    margin: 9em auto auto auto;
+    vertical-align: middle;
+    border-style: none;
+    border-radius: 2em 2em 2em 2em
 }

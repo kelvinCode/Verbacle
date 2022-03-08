@@ -39,25 +39,27 @@ let allQuestions = [
     }
 ]
 
+let topElements = document.getElementById("topElements")
 let introPage = document.getElementById("introPage")
 let easyModeButton = document.getElementById("easyModeButton")
 easyModeButton.textContent = "EASY MODE"
 easyModeButton.addEventListener("click", clearStartPage)
 let mediumModeButton = document.getElementById("mediumModeButton")
 mediumModeButton.textContent = "MEDIUM MODE"
-mediumModeButton.addEventListener("click", giveQuestion)
+mediumModeButton.addEventListener("click", clearStartPage)
 let hardModeButton = document.getElementById("hardModeButton")
 hardModeButton.textContent = "HARD MODE"
-hardModeButton.addEventListener("click", giveQuestion)
+hardModeButton.addEventListener("click", clearStartPage)
 
-let quizPage = document.getElementById("quizPage")
 let questionBox = document.getElementById("questionBox")
+questionBox.style.opacity = 0
 let questionText = document.getElementById("questionText")
 let answerContainer = document.getElementById("answerContainer")
 let timerContainer = document.getElementById("timerContainer")
 let revealContainer = document.getElementById("revealContainer")
 let quizOptionsDiv = document.getElementById("quizOptionsDiv")
-let resultsPage = document.getElementById("resultsPage")
+let resultsBox = document.getElementById("resultsBox")
+resultsBox.style.opacity = 0
 
 let currentQuestion = 0
 let correctAnswerCount = 0
@@ -65,110 +67,137 @@ let generatedQuiz = allQuestions.sort(() => Math.random() - 0.5)
 
 function clearStartPage() {
     easyModeButton.removeEventListener("click", clearStartPage)
+    topElements.style.transitionDuration = "0.3s"
+    topElements.style.opacity = 0
     introPage.style.transitionDuration = "0.3s"
     introPage.style.opacity = 0
-    setTimeout(nextPage, 1000)
+    setTimeout(nextPage, 500)
     function nextPage() {
+        topElements.remove()
         introPage.remove()
-        giveQuestion()
+        startQuiz()
     }
 }
         
-function giveQuestion() {
-    quizPage.style.transitionDuration = "0.5s"
-    quizPage.style.opacity = 1
-    if (currentQuestion < generatedQuiz.length) {
-        let nextButton = document.createElement("button")
-        nextButton.textContent = "Next"
-        nextButton.style.fontFamily = "Corbel"
-        quizOptionsDiv.appendChild(nextButton)
-        let restartButton = document.createElement("button")
-        restartButton.textContent = "Restart"
-        restartButton.style.fontFamily = "Corbel"
-        quizOptionsDiv.appendChild(restartButton)
-        questionText.textContent = generatedQuiz[currentQuestion].question
-        let questionTimeAmount = 15
-        timerContainer.textContent = questionTimeAmount
-        let questionCountdown = setInterval(deductOne, 1000)
-        function deductOne() {
-            if (questionTimeAmount === 0) {
-                console.log("you're outta time buddy")
-                nextButton.addEventListener("click", showNextQuestion)
-                clearInterval(questionCountdown)
-            } else {
-                questionTimeAmount--
-            }
+function startQuiz() {
+    setTimeout(constructQuestion, 500)
+    function constructQuestion() {
+        if (currentQuestion < generatedQuiz.length) {
+            let nextButton = document.createElement("button")
+            nextButton.textContent = "Next"
+            nextButton.style.fontFamily = "Corbel"
+            quizOptionsDiv.appendChild(nextButton)
+            let restartButton = document.createElement("button")
+            restartButton.textContent = "Restart"
+            restartButton.style.fontFamily = "Corbel"
+            quizOptionsDiv.appendChild(restartButton)
+            questionText.textContent = generatedQuiz[currentQuestion].question
+            let questionTimeAmount = 15
             timerContainer.textContent = questionTimeAmount
-        }
-        if (generatedQuiz[currentQuestion].isInput) {
-            let answerInput = document.createElement("input")
-            answerContainer.appendChild(answerInput)
-            answerInput.addEventListener("keypress", inputEntryResponse)
+            let questionCountdown = setInterval(deductOne, 1000)
+            function deductOne() {
+                if (questionTimeAmount === 0) {
+                    console.log("you're outta time buddy")
+                    nextButton.addEventListener("click", showNextQuestion)
+                    clearInterval(questionCountdown)
+                } else {
+                    questionTimeAmount--
+                }
+                timerContainer.textContent = questionTimeAmount
+            }
+            if (generatedQuiz[currentQuestion].isInput) {
+                let answerInput = document.createElement("input")
+                answerContainer.appendChild(answerInput)
+                answerInput.addEventListener("keypress", inputEntryResponse)
                 function inputEntryResponse(keyboard) {
-                if (keyboard.key === "Enter") {
-                    let inputAnswerChecker = 0
-                    generatedQuiz[currentQuestion].answers.forEach(checkAnswerText)
-                    function checkAnswerText(thisAnswer) {
-                        inputAnswerChecker++
-                        if (answerInput.value === thisAnswer.text) {
-                            console.log("You correct, homie")
+                    if (keyboard.key === "Enter") {
+                        let inputAnswerChecker = 0
+                        generatedQuiz[currentQuestion].answers.every(checkAnswerText)
+                        function checkAnswerText(thisAnswer) {
+                            inputAnswerChecker++
+                            if (answerInput.value === thisAnswer.text) {
+                                console.log("You correct, homie")
+                                clearInterval(questionCountdown)
+                                correctAnswerCount++
+                                nextButton.addEventListener("click", showNextQuestion)
+                                return false
+                            } else if (inputAnswerChecker >= generatedQuiz[currentQuestion].answers.length) {
+                                console.log("rong")
+                                clearInterval(questionCountdown)
+                                nextButton.addEventListener("click", showNextQuestion)
+                            } else {
+                                return true
+                            }
+                        }
+                        answerInput.removeEventListener("keypress", inputEntryResponse)
+                    } else {
+                        return null
+                    }
+                }
+            } else {
+                generatedQuiz[currentQuestion].answers.forEach(addButton)
+                function addButton(thisAnswer) {
+                    let answerButton = document.createElement("button")
+                    answerButton.textContent = thisAnswer.text
+                    answerButton.style.fontFamily = "Corbel"
+                    answerButton.style.padding = "1em 2em 1em 2em"
+                    answerButton.className = "option"
+                    answerContainer.appendChild(answerButton)
+                    answerButton.addEventListener("click", buttonClickResponse)
+                    function buttonClickResponse() {
+                        if (thisAnswer.isCorrect) {
+                            console.log("I guess you're right")
                             clearInterval(questionCountdown)
                             correctAnswerCount++
                             nextButton.addEventListener("click", showNextQuestion)
-                        } else if (inputAnswerChecker >= generatedQuiz[currentQuestion].answers.length) {
-                            console.log("rong")
+                        } else {
+                            console.log("u wrong")
                             clearInterval(questionCountdown)
                             nextButton.addEventListener("click", showNextQuestion)
                         }
-                    }
-                } else {
-                    return null
-                }
-            }
-        } else {
-            generatedQuiz[currentQuestion].answers.forEach(addButton)
-            function addButton(thisAnswer) {
-                let answerButton = document.createElement("button")
-                answerButton.textContent = thisAnswer.text
-                answerButton.style.fontFamily = "Corbel"
-                answerButton.style.padding = "1em 2em 1em 2em"
-                answerButton.className = "option"
-                answerContainer.appendChild(answerButton)
-                answerButton.addEventListener("click", buttonClickResponse)
-                function buttonClickResponse() {
-                    if (thisAnswer.isCorrect) {
-                        console.log("I guess you're right")
-                        clearInterval(questionCountdown)
-                        correctAnswerCount++
-                        nextButton.addEventListener("click", showNextQuestion)
-                    } else {
-                        console.log("u wrong")
-                        clearInterval(questionCountdown)
-                        nextButton.addEventListener("click", showNextQuestion)
+                        buttonClickResponse = false
                     }
                 }
             }
+            questionBox.style.transitionDuration = "0.3s"
+            questionBox.style.opacity = 1
+            function showNextQuestion() {
+                questionBox.style.transitionDuration = "0.3s"
+                questionBox.style.opacity = 0
+                setTimeout(removeQuestion, 1000)
+                function removeQuestion() {
+                    answerContainer.textContent = null
+                    revealContainer.textContent = null
+                    quizOptionsDiv.removeChild(nextButton)
+                    quizOptionsDiv.removeChild(restartButton)
+                    currentQuestion++
+                    constructQuestion()
+                }
+            }
+        } else if (currentQuestion >= generatedQuiz.length) {
+            questionBox.style.transitionDuration = "0.3s"
+            questionBox.style.opacity = 0
+            setTimeout(nextPage, 1000)
+            function nextPage() {
+                questionBox.remove()
+                resultsBox.append()
+                setTimeout(showResults, 1000)
+                function showResults() {
+                    let congratsMessage = document.createElement("p")
+                    congratsMessage.textContent = "congrats bro you made the function work"
+                    congratsMessage.style.fontFamily = "Corbel"
+                    congratsMessage.style.textAlign = "center"
+                    let totalScore = document.createElement("p")
+                    totalScore.textContent = correctAnswerCount + "/" + generatedQuiz.length
+                    totalScore.style.fontFamily = "Corbel"
+                    totalScore.style.textAlign = "center"
+                    resultsBox.appendChild(congratsMessage)
+                    resultsBox.appendChild(totalScore)
+                    resultsBox.style.transitionDuration = "0.3s"
+                    resultsBox.style.opacity = 1
+                }
+            }
         }
-        function showNextQuestion() {
-            answerContainer.textContent = null
-            revealContainer.textContent = null
-            quizOptionsDiv.removeChild(nextButton)
-            quizOptionsDiv.removeChild(restartButton)
-            currentQuestion++
-            giveQuestion()
-        }
-    } else if (currentQuestion >= generatedQuiz.length) {
-        questionBox.remove()
-        let congratsMessage = document.createElement("p")
-        congratsMessage.textContent = "congrats bro you made the function work"
-        congratsMessage.style.fontFamily = "Corbel"
-        congratsMessage.style.textAlign = "center"
-        let totalScore = document.createElement("p")
-        totalScore.textContent = correctAnswerCount + "/" + generatedQuiz.length
-        totalScore.style.fontFamily = "Corbel"
-        totalScore.style.textAlign = "center"
-        resultsPage.appendChild(congratsMessage)
-        resultsPage.appendChild(totalScore)
     }
 }
 
@@ -191,5 +220,7 @@ function giveQuestion() {
 
 // things to add:
 // * give the "restart" button its functionality
-// * function before "giveQuestion" that makes the intro text and difficulty
-// buttons disappear, then calls the "giveQuestion" function
+// * make option buttons and input unusable when the time amount goes to 0 and after an
+// answer has been given
+// * function which checks if the button clicked was for easy, medium, or hard mode, and
+// sets the time amount accordingly
