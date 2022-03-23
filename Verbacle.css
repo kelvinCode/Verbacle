@@ -36,60 +36,33 @@ h3{
     font-weight: bold;
 }
 
-.startQuizButtons{
+.startQuizBox{
     text-align: center;
 }
 
-#easyModeButton{
+#startButton{
     font-family: Corbel;
     font-weight: lighter;
     font-size: 200%;
-    color: white;
-    background-color: limegreen;
+    color: khaki;
+    background-color: darkgoldenrod;
     border-style: none;
     border-radius: 0.2em 0.2em 0.2em 0.2em
 }
 
-#easyModeButton:hover{
-    background-color: forestgreen;
-}
-
-#mediumModeButton{
-    font-family: Corbel;
-    font-weight: lighter;
-    font-size: 200%;
+#startButton:hover{
     color: white;
     background-color: goldenrod;
-    border-style: none;
-    border-radius: 0.2em 0.2em 0.2em 0.2em
-}
-
-#mediumModeButton:hover{
-    background-color: darkgoldenrod;
-}
-
-#hardModeButton{
-    font-family: Corbel;
-    font-weight: lighter;
-    font-size: 200%;
-    color: white;
-    background-color: orangered;
-    border-style: none;
-    border-radius: 0.2em 0.2em 0.2em 0.2em
-}
-
-#hardModeButton:hover{
-    background-color: darkred;
 }
 
 #questionBox{
     font-family: Corbel;
     text-align: center;
-    color: lemonchiffon;
+    color: khaki;
     width: 40%;
     background-color: darkgoldenrod;
-    padding: 2em 0em 2em 0em;
-    margin: 9em auto auto auto;
+    padding: 4em 2em 4em 2em;
+    margin: 7.5em auto auto auto;
     border-style: none;
     border-radius: 2em 2em 2em 2em
 }
@@ -103,11 +76,11 @@ h3{
 #resultsBox{
     font-family: Corbel;
     text-align: center;
-    color: lemonchiffon;
+    color: darkorange;
     width: 30%;
-    background-color: darkgoldenrod;
+    background-color: maroon;
     padding: 2em 0em 2em 0em;
-    margin: 9em auto auto auto;
+    margin: 5em auto auto auto;
     vertical-align: middle;
     border-style: none;
     border-radius: 2em 2em 2em 2em

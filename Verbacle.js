@@ -18,7 +18,8 @@ let allQuestions = [
             {text: "Wrapped", isCorrect: true}, 
             {text: "Rapped", isCorrect: false},
             {text: "Both are correct", isCorrect: false}
-        ]
+        ],
+        correctAnswer: "Wrapped"
     },
     {
         question: "All he's good for is splitting ...",
@@ -27,7 +28,8 @@ let allQuestions = [
             {text: "Hares", isCorrect: false}, 
             {text: "Hairs", isCorrect: true},
             {text: "Both are correct", isCorrect: false}
-        ]
+        ],
+        correctAnswer: "Hairs"
     },
     {
         question: "Something that is entirely made of organs is called a(n)",
@@ -41,15 +43,9 @@ let allQuestions = [
 
 let topElements = document.getElementById("topElements")
 let introPage = document.getElementById("introPage")
-let easyModeButton = document.getElementById("easyModeButton")
-easyModeButton.textContent = "EASY MODE"
-easyModeButton.addEventListener("click", clearStartPage)
-let mediumModeButton = document.getElementById("mediumModeButton")
-mediumModeButton.textContent = "MEDIUM MODE"
-mediumModeButton.addEventListener("click", clearStartPage)
-let hardModeButton = document.getElementById("hardModeButton")
-hardModeButton.textContent = "HARD MODE"
-hardModeButton.addEventListener("click", clearStartPage)
+let startButton = document.getElementById("startButton")
+startButton.textContent = "START QUIZ"
+startButton.addEventListener("click", clearStartPage)
 
 let questionBox = document.getElementById("questionBox")
 questionBox.style.opacity = 0
@@ -66,7 +62,7 @@ let correctAnswerCount = 0
 let generatedQuiz = allQuestions.sort(() => Math.random() - 0.5)
 
 function clearStartPage() {
-    easyModeButton.removeEventListener("click", clearStartPage)
+    startButton.removeEventListener("click", clearStartPage)
     topElements.style.transitionDuration = "0.3s"
     topElements.style.opacity = 0
     introPage.style.transitionDuration = "0.3s"
@@ -86,18 +82,23 @@ function startQuiz() {
             let nextButton = document.createElement("button")
             nextButton.textContent = "Next"
             nextButton.style.fontFamily = "Corbel"
+            nextButton.style.fontWeight = "bolder"
+            nextButton.style.backgroundColor = "lightslategray"
+            nextButton.style.borderRadius = "0.5em 0.5em 0.5em 0.5em"
             quizOptionsDiv.appendChild(nextButton)
-            let restartButton = document.createElement("button")
-            restartButton.textContent = "Restart"
-            restartButton.style.fontFamily = "Corbel"
-            quizOptionsDiv.appendChild(restartButton)
             questionText.textContent = generatedQuiz[currentQuestion].question
-            let questionTimeAmount = 15
+            let questionTimeAmount = 10
             timerContainer.textContent = questionTimeAmount
             let questionCountdown = setInterval(deductOne, 1000)
             function deductOne() {
                 if (questionTimeAmount === 0) {
-                    console.log("you're outta time buddy")
+                    revealContainer.style.opacity = 0
+                    revealContainer.textContent = "You're out of time."
+                    setTimeout(revealTimeoutMessage, 100)
+                    function revealTimeoutMessage() {
+                        revealContainer.style.transitionDuration = "0.3s"
+                        revealContainer.style.opacity = 1
+                    }
                     nextButton.addEventListener("click", showNextQuestion)
                     clearInterval(questionCountdown)
                 } else {
@@ -116,15 +117,34 @@ function startQuiz() {
                         function checkAnswerText(thisAnswer) {
                             inputAnswerChecker++
                             if (answerInput.value === thisAnswer.text) {
-                                console.log("You correct, homie")
+                                questionBox.style.color = "limegreen"
+                                questionBox.style.backgroundColor = "darkgreen"
+                                revealContainer.textContent = "You're correct!"
                                 clearInterval(questionCountdown)
                                 correctAnswerCount++
                                 nextButton.addEventListener("click", showNextQuestion)
                                 return false
                             } else if (inputAnswerChecker >= generatedQuiz[currentQuestion].answers.length) {
-                                console.log("rong")
+                                questionBox.style.color = "salmon"
+                                questionBox.style.backgroundColor = "darkred"
+                                revealContainer.style.width = "20%"
+                                revealContainer.textContent = "Sorry, that is wrong. Correct answers include:"
+                                let answerCount = 0
+                                generatedQuiz[currentQuestion].answers.forEach(showAnswers)
+                                function showAnswers(thisAnswer) {
+                                    answerCount++
+                                    let possibleAnswer = document.createElement("span")
+                                    if (answerCount >= generatedQuiz[currentQuestion].answers.length) {
+                                        possibleAnswer.innerHTML = " " + "and" + " " + "<b>" + thisAnswer.text + "</b>" + "."
+                                    } else {
+                                        possibleAnswer.innerHTML = " " + "<b>" + thisAnswer.text + "</b>" + ","
+                                    }
+                                    revealContainer.appendChild(possibleAnswer)
+                                }
                                 clearInterval(questionCountdown)
                                 nextButton.addEventListener("click", showNextQuestion)
+                            } else if (questionTimeAmount === 0) {
+                                answerInput.removeEventListener("keypress", inputEntryResponse)
                             } else {
                                 return true
                             }
@@ -138,24 +158,51 @@ function startQuiz() {
                 generatedQuiz[currentQuestion].answers.forEach(addButton)
                 function addButton(thisAnswer) {
                     let answerButton = document.createElement("button")
+                    answerButton.id = "option"
                     answerButton.textContent = thisAnswer.text
                     answerButton.style.fontFamily = "Corbel"
+                    answerButton.style.fontWeight = "bolder"
+                    answerButton.style.backgroundColor = "lightslategray"
                     answerButton.style.padding = "1em 2em 1em 2em"
-                    answerButton.className = "option"
+                    answerButton.style.borderRadius = "0.5em 0.5em 0.5em 0.5em"
                     answerContainer.appendChild(answerButton)
+                    answerButton.addEventListener("mouseover", () => {
+                        answerButton.style.backgroundColor = "lightgray"
+                    })
+                    answerButton.addEventListener("mouseout", () => {
+                        answerButton.style.backgroundColor = "lightslategray"
+                    })
                     answerButton.addEventListener("click", buttonClickResponse)
                     function buttonClickResponse() {
                         if (thisAnswer.isCorrect) {
-                            console.log("I guess you're right")
+                            questionBox.style.color = "limegreen"
+                            questionBox.style.backgroundColor = "darkgreen"
+                            revealContainer.textContent = "You're correct!"
                             clearInterval(questionCountdown)
                             correctAnswerCount++
                             nextButton.addEventListener("click", showNextQuestion)
+                        } else if (questionTimeAmount === 0) {
+                            generatedQuiz[currentQuestion].answers.forEach(replaceButton)
                         } else {
-                            console.log("u wrong")
+                            questionBox.style.color = "salmon"
+                            questionBox.style.backgroundColor = "darkred"
+                            revealContainer.innerHTML = "Sorry, that's wrong. The correct answer is:" + " " + "<b>" + generatedQuiz[currentQuestion].correctAnswer + "</b>"
                             clearInterval(questionCountdown)
                             nextButton.addEventListener("click", showNextQuestion)
                         }
-                        buttonClickResponse = false
+                        generatedQuiz[currentQuestion].answers.forEach(replaceButton)
+                    }
+                    function replaceButton(thisAnswer) {
+                        document.getElementById("option").remove()
+                        let emptyButton = document.createElement("button")
+                        emptyButton.id = "option"
+                        emptyButton.textContent = thisAnswer.text
+                        emptyButton.style.fontFamily = "Corbel"
+                        emptyButton.style.fontWeight = "bolder"
+                        emptyButton.style.backgroundColor = "lightslategray"
+                        emptyButton.style.padding = "1em 2em 1em 2em"
+                        emptyButton.style.borderRadius = "0.5em 0.5em 0.5em 0.5em"
+                        answerContainer.appendChild(emptyButton)
                     }
                 }
             }
@@ -164,12 +211,13 @@ function startQuiz() {
             function showNextQuestion() {
                 questionBox.style.transitionDuration = "0.3s"
                 questionBox.style.opacity = 0
+                questionBox.style.color = "khaki"
+                questionBox.style.backgroundColor = "darkgoldenrod"
                 setTimeout(removeQuestion, 1000)
                 function removeQuestion() {
                     answerContainer.textContent = null
                     revealContainer.textContent = null
                     quizOptionsDiv.removeChild(nextButton)
-                    quizOptionsDiv.removeChild(restartButton)
                     currentQuestion++
                     constructQuestion()
                 }
@@ -183,16 +231,22 @@ function startQuiz() {
                 resultsBox.append()
                 setTimeout(showResults, 1000)
                 function showResults() {
-                    let congratsMessage = document.createElement("p")
-                    congratsMessage.textContent = "congrats bro you made the function work"
-                    congratsMessage.style.fontFamily = "Corbel"
-                    congratsMessage.style.textAlign = "center"
+                    let congratsMessageTop = document.createElement("p")
+                    congratsMessageTop.textContent = "Congrats! Your score is:"
+                    congratsMessageTop.style.fontFamily = "Corbel"
+                    congratsMessageTop.style.textAlign = "center"
                     let totalScore = document.createElement("p")
                     totalScore.textContent = correctAnswerCount + "/" + generatedQuiz.length
                     totalScore.style.fontFamily = "Corbel"
+                    totalScore.style.fontSize = "5em"
                     totalScore.style.textAlign = "center"
-                    resultsBox.appendChild(congratsMessage)
+                    let congratsMessageBottom = document.createElement("p")
+                    congratsMessageBottom.textContent = "You're always free to try again."
+                    congratsMessageBottom.style.fontFamily = "Corbel"
+                    congratsMessageBottom.style.textAlign = "center"
+                    resultsBox.appendChild(congratsMessageTop)
                     resultsBox.appendChild(totalScore)
+                    resultsBox.appendChild(congratsMessageBottom)
                     resultsBox.style.transitionDuration = "0.3s"
                     resultsBox.style.opacity = 1
                 }
@@ -217,10 +271,3 @@ function startQuiz() {
 // * "++" means you want the function to add 1 to the variable
 // * Time in Javascript is measured in milliseconds, so type "1000" if you want to put
 // a second in your code
-
-// things to add:
-// * give the "restart" button its functionality
-// * make option buttons and input unusable when the time amount goes to 0 and after an
-// answer has been given
-// * function which checks if the button clicked was for easy, medium, or hard mode, and
-// sets the time amount accordingly
