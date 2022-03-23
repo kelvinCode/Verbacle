@@ -38,7 +38,258 @@ let allQuestions = [
             {text: "organism"}, 
             {text: "Organism"},
         ]
-    }
+    },
+    {
+        question: "Heads are to bodies as governments are to ...",
+        isInput: true,
+        answers: [
+            {text: "societies"}, 
+            {text: "Societies"},
+            {text: "society"},
+            {text: "Society"},
+            {text: "people"},
+            {text: "People"}
+        ]
+    },
+    {
+        question: "Materials are to houses as flesh is to ...",
+        isInput: true,
+        answers: [
+            {text: "humans"}, 
+            {text: "Humans"},
+            {text: "animals"},
+            {text: "Animals"},
+        ]
+    },
+    {
+        question: "The only thing that keeps people working is ...",
+        isInput: false, 
+        answers: [
+            {text: "Motivation", isCorrect: false}, 
+            {text: "Emotion", isCorrect: false},
+            {text: "Both are correct", isCorrect: true}
+        ],
+        correctAnswer: "Both are correct"
+    },
+    {
+        question: "Commanders are to soldiers as managers are to ...",
+        isInput: true, 
+        answers: [
+            {text: "workers"}, 
+            {text: "Workers"},
+            {text: "employees"}, 
+            {text: "Employees"},
+        ]
+    },
+    {
+        question: "The window ... are beginning to crack.",
+        isInput: false, 
+        answers: [
+            {text: "Pains", isCorrect: false}, 
+            {text: "Panes", isCorrect: true},
+            {text: "Both are correct", isCorrect: false}
+        ],
+        correctAnswer: "Panes"
+    },
+    {
+        question: "You can't travel this quickly. You really need to hit the ...",
+        isInput: false, 
+        answers: [
+            {text: "Brakes", isCorrect: true}, 
+            {text: "Breaks", isCorrect: false},
+            {text: "Both are correct", isCorrect: false}
+        ],
+        correctAnswer: "Brakes"
+    },
+    {
+        question: "I've ... this book many times already.",
+        isInput: false, 
+        answers: [
+            {text: "Read", isCorrect: true}, 
+            {text: "Red", isCorrect: false},
+            {text: "Both are correct", isCorrect: false}
+        ],
+        correctAnswer: "Read"
+    },
+    {
+        question: "This person just ... on my finances, and nothing else.",
+        isInput: false, 
+        answers: [
+            {text: "Leaches", isCorrect: false}, 
+            {text: "Leeches", isCorrect: true},
+            {text: "Both are correct", isCorrect: false}
+        ],
+        correctAnswer: "Leeches"
+    },
+    {
+        question: "It seems like I ... her more than I expected.",
+        isInput: false, 
+        answers: [
+            {text: "Affected", isCorrect: true}, 
+            {text: "Effected", isCorrect: false},
+            {text: "Both are correct", isCorrect: false}
+        ],
+        correctAnswer: "Affected"
+    },
+    {
+        question: "He played the ... of a soccer player in this movie.",
+        isInput: false, 
+        answers: [
+            {text: "Roll", isCorrect: false}, 
+            {text: "Role", isCorrect: true},
+            {text: "Both are correct", isCorrect: false}
+        ],
+        correctAnswer: "Role"
+    },
+    {
+        question: "... is dangerous to the human body if ingested.",
+        isInput: false, 
+        answers: [
+            {text: "Led", isCorrect: false}, 
+            {text: "Lead", isCorrect: true},
+            {text: "Both are correct", isCorrect: false}
+        ],
+        correctAnswer: "Lead"
+    },
+    {
+        question: "The emotion that makes someone eliminate threats is called ...",
+        isInput: true, 
+        answers: [
+            {text: "anger"}, 
+            {text: "Anger"},
+        ]
+    },
+    {
+        question: "The set of body parts on the head that conveys emotion is known as the ...",
+        isInput: true, 
+        answers: [
+            {text: "face"}, 
+            {text: "Face"},
+        ]
+    },
+    {
+        question: "Parts of a building that allow a view of the outside are known as ...",
+        isInput: true, 
+        answers: [
+            {text: "windows"}, 
+            {text: "Windows"},
+        ]
+    },
+    {
+        question: "The emotion that is felt when problems cannot be solved is called ...",
+        isInput: true, 
+        answers: [
+            {text: "sadness"}, 
+            {text: "Sadness"},
+            {text: "depression"}, 
+            {text: "Depression"},
+        ]
+    },
+    {
+        question: "Time and time again, ... ignorance has lead to destruction.",
+        isInput: false, 
+        answers: [
+            {text: "Their", isCorrect: true}, 
+            {text: "They're", isCorrect: false},
+            {text: "There", isCorrect: false},
+            {text: "All are correct", isCorrect: false}
+        ],
+        correctAnswer: "Their"
+    },
+    {
+        question: "Like I said before, ... always in a bad position.",
+        isInput: false, 
+        answers: [
+            {text: "Your", isCorrect: false}, 
+            {text: "You're", isCorrect: true},
+            {text: "Both are correct", isCorrect: false},
+        ],
+        correctAnswer: "You're"
+    },
+    {
+        question: "Nests are to birds as dens are to ...",
+        isInput: true, 
+        answers: [
+            {text: "lions"}, 
+            {text: "Lions"},
+            {text: "wolves"}, 
+            {text: "Wolves"},
+            {text: "foxes"}, 
+            {text: "Foxes"},
+        ]
+    },
+    {
+        question: "Adolescents within the tribe must go through ... of passage before adulthood.",
+        isInput: false, 
+        answers: [
+            {text: "Rights", isCorrect: false}, 
+            {text: "Rites", isCorrect: true},
+            {text: "Both are correct", isCorrect: false},
+        ],
+        correctAnswer: "Rites"
+    },
+    {
+        question: "The long part of the body connecting the arms, head and legs is called the ...",
+        isInput: true, 
+        answers: [
+            {text: "torso"}, 
+            {text: "Torso"},
+        ]
+    },
+    {
+        question: "Orange tends to be a nice ... to blue.",
+        isInput: false, 
+        answers: [
+            {text: "Compliment", isCorrect: false}, 
+            {text: "Complement", isCorrect: true},
+            {text: "Both are correct", isCorrect: false},
+        ],
+        correctAnswer: "Complement"
+    },
+    {
+        question: "Handheld weapons that launch fast, metal projectiles are called ...",
+        isInput: true, 
+        answers: [
+            {text: "guns"}, 
+            {text: "Guns"},
+            {text: "firearms"}, 
+            {text: "Firearms"},
+        ]
+    },
+    {
+        question: "I simply could not ... the pain",
+        isInput: false, 
+        answers: [
+            {text: "Bear", isCorrect: true}, 
+            {text: "Bare", isCorrect: false},
+            {text: "Both are correct", isCorrect: false},
+        ],
+        correctAnswer: "Bear"
+    },
+    {
+        question: "Man is to woman as rooster is to ...",
+        isInput: true, 
+        answers: [
+            {text: "hen"}, 
+            {text: "Hen"},
+        ]
+    },
+    {
+        question: "Wolf is to deer as cat is to ...",
+        isInput: true, 
+        answers: [
+            {text: "mouse"}, 
+            {text: "Mouse"},
+        ]
+    },
+    {
+        question: "Paper is to writing as website is to ...",
+        isInput: true, 
+        answers: [
+            {text: "typing"}, 
+            {text: "Typing"},
+        ]
+    },
 ]
 
 let topElements = document.getElementById("topElements")
